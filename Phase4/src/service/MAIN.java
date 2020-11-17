@@ -2,7 +2,6 @@ package service;
 
 import java.sql.SQLException;
 import java.util.List;
-
 import entity.Account;
 
 public class MAIN {
@@ -19,11 +18,13 @@ public class MAIN {
 //		a1.setPhone_number("01022223333");
 //		System.out.println(a1.getAddress());
 //		AccountService.create_account(a1);
-//		
-//		AccountService.login("jaa1@newsvine.com", "asfdgk");
-//		
-//		AccountService.insert(a1);
-		AccountService.delete_account("ebarron9@shareasale.com");
 		
-	}
+		String try_user = "jaa1@newsvine.com";
+		
+		String loginuser = AccountService.login(try_user, "asfdgk");
+
+		if(!(loginuser.equals("")))AccountService.search_movie("Future-proofed maximized budgetary management");
+	
+		if(loginuser.equals(try_user)) AccountService.delete_account(try_user);
+		}
 }
