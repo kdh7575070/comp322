@@ -18,10 +18,10 @@ public class AccountService {
 	private static String uid = "testdb";
 	private static String pwd = "testdb";
 	private static String driver = "org.postgresql.Driver";
-//	private static String url = "jdbc:postgresql://localhost/knumovie";
-//	private static String uid = "postgres";
-//	private static String pwd = "comp322";
-//	private static String driver = "org.postgresql.Driver";
+	private static String url = "jdbc:postgresql://localhost/knumovie";
+	private static String uid = "postgres";
+	private static String pwd = "comp322";
+	private static String driver = "org.postgresql.Driver";
 			
 	public static List<Account> getList() throws ClassNotFoundException, SQLException {
 		String sql = "SELECT * FROM Account";
@@ -146,6 +146,47 @@ public class AccountService {
 		}
 		return -1; // 아이디가 없음 오류
 	}
+	
+	public static void delete_account(String User_id) throws ClassNotFoundException, SQLException {
+		String sql_check_admin = "SELECT user_id FROM Account WHERE is_admin=True"; //view로 대체..
+		String sql = "DELETE  FROM Account WHERE user_id=?";
+		
+		Class.forName(driver);
+		Connection con = DriverManager.getConnection(url, uid, pwd);
+		
+		Statement stmt = con.createStatement();
+		ResultSet rs = stmt.executeQuery(sql_check_admin);
+		ArrayList<String> admin_names = new ArrayList<String>();
+		while (rs.next()) {
+			admin_names.add(rs.getString(1));
+		}
+		System.out.println(admin_names.size());
+		
+		if(admin_names.size() <= 1) {
+			for(String name :admin_names) {
+				if(name.equals(User_id)) {
+					System.out.println("관리자 계정은 반드시 한개이상 존재해야합니다.");
+					rs.close();
+					stmt.close();
+					con.close();
+					return;
+				}
+			}
+		}
+				
+		PreparedStatement st = con.prepareStatement(sql);
+		st.setString(1, User_id);
+		
+		int result = st.executeUpdate();
+		if (result == 1) {
+			System.out.println("Deleted Successfully");
+		} else {
+			System.out.print("Wrong ID");
+		}
+		
+		st.close();
+		con.close();
+	}
 }
 
 
@@ -179,18 +220,4 @@ public class AccountService {
 //		return rs;
 //	}
 //	
-//	public int delete(int id) throws ClassNotFoundException, SQLException {
-//		String sql = "DELETE NOTICE WHERE ID=?";
-//		
-//		Class.forName(driver);
-//		Connection con = DriverManager.getConnection(url, uid, pwd);
-//		PreparedStatement st = con.prepareStatement(sql);
-//		st.setInt(1, id);
-//		
-//		int result = st.executeUpdate();
-//		
-//		st.close();
-//		con.close();
-//		return result;
-//	}
 //}
