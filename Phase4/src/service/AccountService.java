@@ -18,10 +18,10 @@ public class AccountService {
 	private static String uid = "testdb";
 	private static String pwd = "testdb";
 	private static String driver = "org.postgresql.Driver";
-	private static String url = "jdbc:postgresql://localhost/knumovie";
-	private static String uid = "postgres";
-	private static String pwd = "comp322";
-	private static String driver = "org.postgresql.Driver";
+//	private static String url = "jdbc:postgresql://localhost/knumovie";
+//	private static String uid = "postgres";
+//	private static String pwd = "comp322";
+//	private static String driver = "org.postgresql.Driver";
 			
 	public static List<Account> getList() throws ClassNotFoundException, SQLException {
 		String sql = "SELECT * FROM Account";
@@ -113,7 +113,42 @@ public class AccountService {
 		int rs = st.executeUpdate();
 		return rs;
 	}
+	
+	public static int login(String User_id, String Password) throws ClassNotFoundException, SQLException {
+		
+		String sql = "SELECT Password FROM Account WHERE User_id = ?";
+
+		Class.forName(driver);
+		Connection con = DriverManager.getConnection(url, uid, pwd);
+
+		PreparedStatement st = con.prepareStatement(sql);
+		
+		// pstmt : prepared statement 정해진 sql문장을 db에 삽입하는 형식으로 인스턴스가져옴
+		st = con.prepareStatement(sql);
+	
+		// 물음표해당하는 내용을 유저아이디로, 매개변수로 이용.. 1)존재하는지 2)비밀번호무엇인지
+		st.setString(1, User_id);
+	
+		ResultSet rs = st.executeQuery();
+	
+		// 결과가 존재한다면 실행
+		if (rs.next()) {
+			
+			// 패스워드 일치한다면 실행
+			if (rs.getString(1).equals(Password)) {	
+				System.out.println("password is " + Password);
+				return 1; // 성공
+			}
+			else {
+				return 0; // 비밀번호 불일치
+			}
+			
+		}
+		return -1; // 아이디가 없음 오류
+	}
 }
+
+
 //	
 //	public int update(Account account) throws ClassNotFoundException, SQLException {
 //		String title = notice.getTitle();

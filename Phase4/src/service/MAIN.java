@@ -12,13 +12,16 @@ public class MAIN {
 		System.out.println(list.get(1).getUser_id());
 		
 //		Account a1 = new Account();
-//		a1.setUser_id("jaa@newsvine.com");
+//		a1.setUser_id("jaa1@newsvine.com");
 //		a1.setPassword("asfdgk");
 //		a1.setFirst_name("Bill");
 //		a1.setLast_name("Gates");
 //		a1.setPhone_number("01022223333");
 //		System.out.println(a1.getAddress());
-//		AccountService.insert(a1);
+//		AccountService.create_account(a1);
+		
+		AccountService.login("jaa1@newsvine.com", "asfdgk");
+		
 	}
 
 }
