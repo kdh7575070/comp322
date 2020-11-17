@@ -28,6 +28,7 @@ public class AccountService {
 		ResultSet rs = st.executeQuery(sql);
 		
 		List<Account> list = new ArrayList<Account>();
+	
 		
 		while(rs.next()) {
 			String User_id = rs.getString("User_id");
@@ -62,7 +63,7 @@ public class AccountService {
 		 return list;
 	}
 	
-	public static int insert(Account account) throws ClassNotFoundException, SQLException {
+	public static int create_account(Account account) throws ClassNotFoundException, SQLException {
 		String User_id = account.getUser_id();
 		String Password = account.getPassword();
 		String First_name = account.getFirst_name();
