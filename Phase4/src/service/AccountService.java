@@ -33,7 +33,6 @@ public class AccountService {
 		
 		List<Account> list = new ArrayList<Account>();
 	
-		
 		while(rs.next()) {
 			String User_id = rs.getString("User_id");
 			String Password = rs.getString("Password");
@@ -156,7 +155,6 @@ public class AccountService {
 		while (rs.next()) {
 			admin_names.add(rs.getString(1));
 		}
-		System.out.println(admin_names.size());
 		
 		if(admin_names.size() <= 1) {
 			for(String name :admin_names) {
@@ -179,7 +177,6 @@ public class AccountService {
 		} else {
 			System.out.print("Wrong ID");
 		}
-		
 		st.close();
 		con.close();
 	}
@@ -199,6 +196,28 @@ public class AccountService {
 
 	rs.next();
 	for(int i = 1; i<11 ; i++) System.out.print(rs.getString(i)+" / ");
+	System.out.println(rs.getBoolean(11));
 	}
+	
+	public static void srch_movie(String type, String genre_name, String version_id) throws ClassNotFoundException, SQLException {
+	
+		String sql = "SELECT * FROM MOVIE WHERE movie_id IN (SELECT MOVIE.movie_id FROM MOVIE_GENRE, MOVIE FULL OUTER JOIN VERSION ON MOVIE.movie_id=VERSION.movie_id WHERE MOVIE.movie_id = MOVIE_GENRE.movie_id";
+
+		if(!(type.equals(""))) sql += " and Type = '" + type + "'";		
+		if(!(genre_name.equals(""))) sql += " and Genre_name = '" + genre_name + "'";
+		if(!(version_id.equals(""))) sql += " and Version_id = " + version_id;		
+
+		sql+= ")";
+
+		Class.forName(driver);
+		Connection con = DriverManager.getConnection(url, uid, pwd);
+		Statement st = con.createStatement();
+		ResultSet rs = st.executeQuery(sql);
+
+		while(rs.next()) {
+			for(int i = 1; i<10 ; i++) System.out.print(rs.getString(i)+" / ");
+			System.out.println(rs.getString(10));
+			}
+		}
 	
 }
