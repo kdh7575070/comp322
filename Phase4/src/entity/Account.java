@@ -36,6 +36,20 @@ public class Account {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Account(String user_id,String first_name, String last_name, String phone_number,
+			Date birthday, String sex, String address, String job, String membership_status) {
+		super();
+		User_id = user_id;
+		First_name = first_name;
+		Last_name = last_name;
+		Phone_number = phone_number;
+		Birthday = birthday;
+		Sex = sex;
+		Address = address;
+		Job = job;
+		Membership_status = membership_status;
+	}
+
 	public String getUser_id() {
 		return User_id;
 	}

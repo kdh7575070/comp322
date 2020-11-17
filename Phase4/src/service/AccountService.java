@@ -14,14 +14,14 @@ import java.util.List;
 import entity.Account;
 
 public class AccountService {
-	private static String url = "jdbc:postgresql://localhost/testdb";
-	private static String uid = "testdb";
-	private static String pwd = "testdb";
-	private static String driver = "org.postgresql.Driver";
-//	private static String url = "jdbc:postgresql://localhost/knumovie";
-//	private static String uid = "postgres";
-//	private static String pwd = "comp322";
+//	private static String url = "jdbc:postgresql://localhost/testdb";
+//	private static String uid = "testdb";
+//	private static String pwd = "testdb";
 //	private static String driver = "org.postgresql.Driver";
+	private static String url = "jdbc:postgresql://localhost/knumovie";
+	private static String uid = "postgres";
+	private static String pwd = "comp322";
+	private static String driver = "org.postgresql.Driver";
 			
 	public static List<Account> getList() throws ClassNotFoundException, SQLException {
 		String sql = "SELECT * FROM Account";
@@ -220,4 +220,37 @@ public class AccountService {
 			}
 		}
 	
+	public static int update_user_info(Account new_info) throws ClassNotFoundException, SQLException {
+		String sql = "UPDATE Account "
+				+ "SET"
+				+ "		First_name=?,"
+				+ "		Last_name=?,"
+				+ "		Phone_number=?,"
+				+ "		Birthday=?,"
+				+ "		Sex=?,"
+				+ "		Address=?,"
+				+ "		Job=?,"
+				+ "		Membership_status=?"
+				+ "   WHERE user_id=?";
+		
+		Class.forName(driver);
+		Connection con = DriverManager.getConnection(url,uid,pwd);
+		PreparedStatement st = con.prepareStatement(sql);
+		st.setString(1, new_info.getFirst_name());
+		st.setString(2, new_info.getLast_name());
+		st.setString(3, new_info.getPhone_number());
+		st.setDate(4, new_info.getBirthday());
+		st.setString(5, new_info.getSex());
+		st.setString(6, new_info.getAddress());
+		st.setString(7, new_info.getJob());
+		st.setString(8, new_info.getMembership_status());
+		st.setString(9, new_info.getUser_id());
+		
+		int rs = st.executeUpdate();
+		if (rs == 1) System.out.println("Update Successfully");
+		st.close();
+		con.close();
+		
+		return rs;
+	}	
 }
