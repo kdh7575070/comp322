@@ -13,8 +13,13 @@ public class Movie {
 	private Date Start_year;
 	private int Runtime;
 	
+	public Movie() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	public Movie(String movie_title, String type, int parent_id, int series_number, boolean is_adult,
 			String director_first_name, String director_last_name, Date start_year, int runtime) {
+		
 		Movie_title = movie_title;
 		Type = type;
 		Parent_id = parent_id;

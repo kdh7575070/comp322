@@ -11,14 +11,14 @@ import java.sql.Date;
 import entity.Movie;
 
 public class AdminService {
-//	private static String url = "jdbc:postgresql://localhost/testdb";
-//	private static String uid = "testdb";
-//	private static String pwd = "testdb";
-//	private static String driver = "org.postgresql.Driver";
-	private static String url = "jdbc:postgresql://localhost/knumovie";
-	private static String uid = "postgres";
-	private static String pwd = "comp322";
+	private static String url = "jdbc:postgresql://localhost/testdb";
+	private static String uid = "testdb";
+	private static String pwd = "testdb";
 	private static String driver = "org.postgresql.Driver";
+//	private static String url = "jdbc:postgresql://localhost/knumovie";
+//	private static String uid = "postgres";
+//	private static String pwd = "comp322";
+//	private static String driver = "org.postgresql.Driver";
 
 	public static int create_movie(Movie movie) throws ClassNotFoundException, SQLException {
 		/*
@@ -46,7 +46,7 @@ public class AdminService {
 				+ "		Director_last_name,"
 				+ "		Start_year,"
 				+ "		Runtime"
-				+ ") VALUES (?,?,?,?,?,?,?,?)";
+				+ ") VALUES (?,?,?,?,?,?,?,?,?)";
 		
 		Class.forName(driver);
 		Connection con = DriverManager.getConnection(url, uid, pwd);
@@ -62,6 +62,7 @@ public class AdminService {
 		st.setInt(9, Runtime);
 		
 		int rs = st.executeUpdate();
+		System.out.print("Movie created successfully");
 		return rs;
 	}
 	
@@ -120,8 +121,13 @@ public class AdminService {
 		Statement stmt = con.createStatement();
 		ResultSet rs = stmt.executeQuery(sql);
 		
-		while(rs.next()) {
+		if(rs.next()) {
+			System.out.print("3B. All ratings: ");
 			System.out.println(rs.getString(1)+ " | " + rs.getString(2)+ " | " +  rs.getBoolean(3)+ " | " +  rs.getString(4));
+		}
+		
+		while(rs.next()) {
+			System.out.println("                 " + rs.getString(1)+ " | " + rs.getString(2)+ " | " +  rs.getBoolean(3)+ " | " +  rs.getString(4));
 		}
 	}
 }

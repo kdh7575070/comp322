@@ -14,14 +14,14 @@ import java.util.List;
 import entity.Account;
 
 public class AccountService {
-//	private static String url = "jdbc:postgresql://localhost/testdb";
-//	private static String uid = "testdb";
-//	private static String pwd = "testdb";
-//	private static String driver = "org.postgresql.Driver";
-	private static String url = "jdbc:postgresql://localhost/knumovie";
-	private static String uid = "postgres";
-	private static String pwd = "comp322";
+	private static String url = "jdbc:postgresql://localhost/testdb";
+	private static String uid = "testdb";
+	private static String pwd = "testdb";
 	private static String driver = "org.postgresql.Driver";
+//	private static String url = "jdbc:postgresql://localhost/knumovie";
+//	private static String uid = "postgres";
+//	private static String pwd = "comp322";
+//	private static String driver = "org.postgresql.Driver";
 			
 	public static List<Account> getList() throws ClassNotFoundException, SQLException {
 		String sql = "SELECT * FROM Account";
@@ -62,8 +62,8 @@ public class AccountService {
 			list.add(account);
 			
 		}
-		
-		 return list;
+		System.out.print("0. first user is : ");
+		return list;
 	}
 	
 	public static int create_account(Account account) throws ClassNotFoundException, SQLException {
@@ -78,7 +78,6 @@ public class AccountService {
 		String Job = account.getJob();
 		String Membership_status = account.getMembership_status();
 		boolean Is_admin = account.getIs_admin();
-		
 		
 		String sql = "INSERT INTO Account ( "
 				+ "		User_id,"
@@ -110,6 +109,7 @@ public class AccountService {
 		st.setBoolean(11, Is_admin);
 		
 		int rs = st.executeUpdate();
+		System.out.print("User created successfully");
 		return rs;
 	}
 	
@@ -129,22 +129,22 @@ public class AccountService {
 		if (rs.next()) {
 			
 			if (rs.getString(1).equals(Password)) {	
-				System.out.println("Log in successful");
+				System.out.println("1D. Log in successful");
 				return User_id;
 			}
 			else {
-				System.out.println("password is wrong");
+				System.out.println("1D. Password is wrong");
 				return "";
 			}
 			
 		}
-		System.out.println("no id like that");
+		System.out.println("1D. No such id like that");
 		return "";
 	}
 	
 	public static void delete_account(String User_id) throws ClassNotFoundException, SQLException {
 		String sql_check_admin = "SELECT user_id FROM Account WHERE is_admin=True"; //view로 대체..
-		String sql = "DELETE  FROM Account WHERE user_id=?";
+		String sql = "DELETE FROM Account WHERE user_id=?";
 		
 		Class.forName(driver);
 		Connection con = DriverManager.getConnection(url, uid, pwd);
@@ -159,7 +159,7 @@ public class AccountService {
 		if(admin_names.size() <= 1) {
 			for(String name :admin_names) {
 				if(name.equals(User_id)) {
-					System.out.println("관리자 계정은 반드시 한개이상 존재해야합니다.");
+					System.out.println("1E. At least one admin must exist.");
 					rs.close();
 					stmt.close();
 					con.close();
@@ -173,9 +173,9 @@ public class AccountService {
 		
 		int result = st.executeUpdate();
 		if (result == 1) {
-			System.out.println("Deleted Successfully");
+			System.out.println("1E. Deleted successfully");
 		} else {
-			System.out.print("Wrong ID");
+			System.out.print("1E. Delete was unsuccessful");
 		}
 		st.close();
 		con.close();
@@ -251,7 +251,7 @@ public class AccountService {
 		st.setString(9, new_info.getUser_id());
 		
 		int rs = st.executeUpdate();
-		if (rs == 1) System.out.println("Update Successfully");
+		if (rs == 1) System.out.println("1B. Update Successfully");
 		st.close();
 		con.close();
 		
@@ -271,7 +271,7 @@ public class AccountService {
 		st.setString(2, loginuser);
 		
 		int rs = st.executeUpdate();
-		if (rs == 1) System.out.println("Change Password Successfully");
+		if (rs == 1) System.out.println("1C. Change Password Successfully");
 		st.close();
 		con.close();
 		
@@ -295,9 +295,38 @@ public class AccountService {
 	
 		st.setString(1, loginuser);
 		ResultSet rs = st.executeQuery();
-	
-		while(rs.next()) {
+
+		if(rs.next()) {
+			System.out.print("3A. My ratings: "); 
 			System.out.println(rs.getString(1)+ " | " + rs.getBoolean(2)+ " | " +  rs.getInt(3));
 		}
+		
+		while(rs.next()) {
+			System.out.println("                " + rs.getString(1)+ " | " + rs.getBoolean(2)+ " | " +  rs.getInt(3));
+		}
+	}
+	
+public static boolean Is_admin(String User_id) throws ClassNotFoundException, SQLException {
+		
+		String sql = "SELECT Is_admin FROM Account WHERE User_id = ?";
+
+		Class.forName(driver);
+		Connection con = DriverManager.getConnection(url, uid, pwd);
+
+		PreparedStatement st = con.prepareStatement(sql);
+		st = con.prepareStatement(sql);
+	
+		st.setString(1, User_id);
+		ResultSet rs = st.executeQuery();
+	
+		if (rs.next()) {
+			
+			if (rs.getBoolean(1)) return true;
+			
+			else  return false;
+		}
+
+		System.out.println("3B. No such id like that");
+		return false;
 	}
 }
