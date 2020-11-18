@@ -58,7 +58,7 @@ public class Movie {
 		Series_number = series_number;
 	}
 
-	public boolean isIs_adult() {
+	public boolean getIs_adult() {
 		return Is_adult;
 	}
 

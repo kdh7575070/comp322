@@ -183,23 +183,23 @@ public class AccountService {
 
 	public static void search_movie(String movie_title) throws ClassNotFoundException, SQLException {
 	
-	String sql = "SELECT * FROM (MOVIE NATURAL JOIN ACTOR) WHERE Movie_title = ?";
-
-	Class.forName(driver);
-	Connection con = DriverManager.getConnection(url, uid, pwd);
-
-	PreparedStatement st = con.prepareStatement(sql);
-	st = con.prepareStatement(sql);
-
-	st.setString(1, movie_title);
-	ResultSet rs = st.executeQuery();
-
-	rs.next();
-	for(int i = 1; i<11 ; i++) System.out.print(rs.getString(i)+" / ");
-	System.out.println(rs.getBoolean(11));
+		String sql = "SELECT * FROM (MOVIE NATURAL JOIN ACTOR) WHERE Movie_title = ?";
+	
+		Class.forName(driver);
+		Connection con = DriverManager.getConnection(url, uid, pwd);
+	
+		PreparedStatement st = con.prepareStatement(sql);
+		st = con.prepareStatement(sql);
+	
+		st.setString(1, movie_title);
+		ResultSet rs = st.executeQuery();
+	
+		rs.next();
+		for(int i = 1; i<11 ; i++) System.out.print(rs.getString(i)+" / ");
+		System.out.println(rs.getBoolean(11));
 	}
 	
-	public static void srch_movie(String type, String genre_name, String version_id) throws ClassNotFoundException, SQLException {
+	public static ArrayList<String> srch_movie(String type, String genre_name, String version_id) throws ClassNotFoundException, SQLException {
 	
 		String sql = "SELECT * FROM MOVIE WHERE movie_id IN (SELECT MOVIE.movie_id FROM MOVIE_GENRE, MOVIE FULL OUTER JOIN VERSION ON MOVIE.movie_id=VERSION.movie_id WHERE MOVIE.movie_id = MOVIE_GENRE.movie_id";
 
@@ -214,11 +214,15 @@ public class AccountService {
 		Statement st = con.createStatement();
 		ResultSet rs = st.executeQuery(sql);
 
+		ArrayList<String> movie_list = new ArrayList<String>();
+
 		while(rs.next()) {
+			movie_list.add(rs.getString(1));
 			for(int i = 1; i<10 ; i++) System.out.print(rs.getString(i)+" / ");
 			System.out.println(rs.getString(10));
-			}
 		}
+		return movie_list;
+	}
 	
 	public static int update_user_info(Account new_info) throws ClassNotFoundException, SQLException {
 		String sql = "UPDATE Account "
@@ -272,5 +276,28 @@ public class AccountService {
 		con.close();
 		
 		return rs;
+	}
+	
+	public static void check_my_ratinglist(String loginuser) throws ClassNotFoundException, SQLException {
+		
+		String sql = "SELECT movie_title, likes, ratings " + 
+					   "FROM Rating NATURAL JOIN movie " + 
+					   "WHERE account_id IN" + 
+					   "	(SELECT account_id " + 
+					   "	 FROM Account" + 
+					   "	 WHERE user_id = ?);";
+	
+		Class.forName(driver);
+		Connection con = DriverManager.getConnection(url, uid, pwd);
+	
+		PreparedStatement st = con.prepareStatement(sql);
+		st = con.prepareStatement(sql);
+	
+		st.setString(1, loginuser);
+		ResultSet rs = st.executeQuery();
+	
+		while(rs.next()) {
+			System.out.println(rs.getString(1)+ " | " + rs.getBoolean(2)+ " | " +  rs.getInt(3));
+		}
 	}
 }
