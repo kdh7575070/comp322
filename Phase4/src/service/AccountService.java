@@ -253,4 +253,24 @@ public class AccountService {
 		
 		return rs;
 	}	
+	
+	public static int update_user_pwd(String loginuser, String new_pwd) throws ClassNotFoundException, SQLException {
+		String sql = "UPDATE Account "
+				+ "SET"
+				+ "		Password=?"
+				+ "   WHERE user_id=?";
+		
+		Class.forName(driver);
+		Connection con = DriverManager.getConnection(url,uid,pwd);
+		PreparedStatement st = con.prepareStatement(sql);
+		st.setString(1, new_pwd);
+		st.setString(2, loginuser);
+		
+		int rs = st.executeUpdate();
+		if (rs == 1) System.out.println("Change Password Successfully");
+		st.close();
+		con.close();
+		
+		return rs;
+	}
 }
