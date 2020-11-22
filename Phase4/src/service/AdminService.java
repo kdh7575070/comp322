@@ -11,14 +11,10 @@ import java.sql.Date;
 import entity.Movie;
 
 public class AdminService {
-	private static String url = "jdbc:postgresql://localhost/testdb";
-	private static String uid = "testdb";
-	private static String pwd = "testdb";
+	private static String url = "jdbc:postgresql://localhost/knumovie";
+	private static String uid = "postgres";
+	private static String pwd = "comp322";
 	private static String driver = "org.postgresql.Driver";
-//	private static String url = "jdbc:postgresql://localhost/knumovie";
-//	private static String uid = "postgres";
-//	private static String pwd = "comp322";
-//	private static String driver = "org.postgresql.Driver";
 
 	public static int create_movie(Movie movie) throws ClassNotFoundException, SQLException {
 		/*

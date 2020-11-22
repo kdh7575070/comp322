@@ -14,14 +14,10 @@ import java.util.List;
 import entity.Account;
 
 public class AccountService {
-	private static String url = "jdbc:postgresql://localhost/testdb";
-	private static String uid = "testdb";
-	private static String pwd = "testdb";
+	private static String url = "jdbc:postgresql://localhost/knumovie";
+	private static String uid = "postgres";
+	private static String pwd = "comp322";
 	private static String driver = "org.postgresql.Driver";
-//	private static String url = "jdbc:postgresql://localhost/knumovie";
-//	private static String uid = "postgres";
-//	private static String pwd = "comp322";
-//	private static String driver = "org.postgresql.Driver";
 			
 	public static List<Account> getList() throws ClassNotFoundException, SQLException {
 		String sql = "SELECT * FROM Account";

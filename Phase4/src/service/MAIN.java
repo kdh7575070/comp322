@@ -3,7 +3,6 @@ package service;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import entity.Account;
 import entity.Movie;
 
@@ -15,7 +14,7 @@ public class MAIN {
 //		System.out.println(list.get(1).getUser_id());
 //		System.out.println();
 		
-//		AccountService.delete_account("newadmin@newsvine.com"); //반복실행처리 
+		AccountService.delete_account("newadmin@newsvine.com"); //반복실행처리 
 		
 		System.out.println("1-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 		System.out.println();
@@ -96,7 +95,7 @@ public class MAIN {
 		System.out.println("3-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 		System.out.println();
 		
-		String randomuserid = "ebarron9@shareasale.com";
+		
 
 		// 3A true
 		

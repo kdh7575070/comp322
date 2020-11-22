@@ -1,7 +1,6 @@
 package service;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,18 +9,13 @@ import java.sql.Statement;
 
 import java.util.ArrayList;
 
-import entity.Account;
 import entity.Rating;
 
 public class MovieService {
-	private static String url = "jdbc:postgresql://localhost/testdb";
-	private static String uid = "testdb";
-	private static String pwd = "testdb";
+	private static String url = "jdbc:postgresql://localhost/knumovie";
+	private static String uid = "postgres";
+	private static String pwd = "comp322";
 	private static String driver = "org.postgresql.Driver";
-//	private static String url = "jdbc:postgresql://localhost/knumovie";
-//	private static String uid = "postgres";
-//	private static String pwd = "comp322";
-//	private static String driver = "org.postgresql.Driver";s
 			
 	
 	public static void show_all_movies() throws ClassNotFoundException, SQLException {
