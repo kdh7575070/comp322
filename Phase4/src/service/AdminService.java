@@ -62,7 +62,7 @@ public class AdminService {
 		st.setInt(9, Runtime);
 		
 		int rs = st.executeUpdate();
-		System.out.print("Movie created successfully");
+		System.out.println("Movie created successfully");
 		return rs;
 	}
 	

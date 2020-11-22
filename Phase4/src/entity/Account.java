@@ -17,7 +17,7 @@ public class Account {
 	
 	
 	public Account(String user_id, String password, String first_name, String last_name, String phone_number,
-			Date birthday, String sex, String address, String job, String membership_status, boolean is_admin) {
+			Date birthday, String sex, String address, String job, boolean is_admin) {
 	
 		User_id = user_id;
 		Password = password;
@@ -28,7 +28,6 @@ public class Account {
 		Sex = sex;
 		Address = address;
 		Job = job;
-		Membership_status = membership_status;
 		Is_admin = is_admin;
 	}
 	
@@ -37,7 +36,7 @@ public class Account {
 	}
 
 	public Account(String user_id,String first_name, String last_name, String phone_number,
-			Date birthday, String sex, String address, String job, String membership_status) {
+			Date birthday, String sex, String address, String job) {
 		super();
 		User_id = user_id;
 		First_name = first_name;
@@ -47,7 +46,6 @@ public class Account {
 		Sex = sex;
 		Address = address;
 		Job = job;
-		Membership_status = membership_status;
 	}
 
 	public String getUser_id() {

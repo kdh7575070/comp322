@@ -43,7 +43,6 @@ public class AccountService {
 			String Sex = rs.getString("Sex");
 			String Address = rs.getString("Address");
 			String Job = rs.getString("Job");
-			String Membership_status = rs.getString("Membership_status");
 			boolean Is_admin = rs.getBoolean("Is_admin");
 
 			Account account = new Account(
@@ -56,7 +55,6 @@ public class AccountService {
 					Sex,
 					Address,
 					Job,
-					Membership_status,
 					Is_admin
 					);
 			list.add(account);
@@ -76,7 +74,6 @@ public class AccountService {
 		String Sex = account.getSex();
 		String Address = account.getAddress();
 		String Job = account.getJob();
-		String Membership_status = account.getMembership_status();
 		boolean Is_admin = account.getIs_admin();
 		
 		String sql = "INSERT INTO Account ( "
@@ -89,9 +86,8 @@ public class AccountService {
 				+ "		Sex,"
 				+ "		Address,"
 				+ "		Job,"
-				+ "		Membership_status,"
 				+ "		Is_admin"
-				+ ") VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+				+ ") VALUES (?,?,?,?,?,?,?,?,?,?)";
 		
 		Class.forName(driver);
 		Connection con = DriverManager.getConnection(url, uid, pwd);
@@ -105,11 +101,10 @@ public class AccountService {
 		st.setString(7, Sex);
 		st.setString(8, Address);
 		st.setString(9, Job);
-		st.setString(10, Membership_status);
-		st.setBoolean(11, Is_admin);
+		st.setBoolean(10, Is_admin);
 		
 		int rs = st.executeUpdate();
-		System.out.print("User created successfully");
+		System.out.println("User created successfully");
 		return rs;
 	}
 	
@@ -175,7 +170,7 @@ public class AccountService {
 		if (result == 1) {
 			System.out.println("1E. Deleted successfully");
 		} else {
-			System.out.print("1E. Delete was unsuccessful");
+			System.out.println("1E. Delete was unsuccessful");
 		}
 		st.close();
 		con.close();
@@ -198,7 +193,7 @@ public class AccountService {
 		for(int i = 1; i<11 ; i++) System.out.print(rs.getString(i)+" / ");
 		System.out.println(rs.getBoolean(11));
 	}
-	
+		
 	public static ArrayList<String> srch_movie(String type, String genre_name, String version_id) throws ClassNotFoundException, SQLException {
 	
 		String sql = "SELECT * FROM MOVIE WHERE movie_id IN (SELECT MOVIE.movie_id FROM MOVIE_GENRE, MOVIE FULL OUTER JOIN VERSION ON MOVIE.movie_id=VERSION.movie_id WHERE MOVIE.movie_id = MOVIE_GENRE.movie_id";

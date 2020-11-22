@@ -13,6 +13,8 @@ public class MAIN {
 		List<Account> list = AccountService.getList();
 		System.out.println(list.get(1).getUser_id());
 		
+		AccountService.delete_account("newadmin@newsvine.com");
+		
 		// 회원객체생성 
 		Account a1 = new Account();
 		a1.setUser_id("newadmin@newsvine.com");
@@ -23,27 +25,29 @@ public class MAIN {
 		a1.setIs_admin(true);
 		
 		// 1A 회원가입
-		System.out.println("1A. User_id = " + a1.getUser_id() +
+		System.out.print("1A. User_id = " + a1.getUser_id() +
 						   ", Name = " + a1.getFirst_name() + a1.getLast_name() +
-						   ", Address = " + a1.getAddress());
-//		AccountService.create_account(a1);
+						   ", Address = " + a1.getAddress() +
+						   " / ");
+		AccountService.create_account(a1);
 		
 		// 1D 로그인
 		String try_userid = "newadmin@newsvine.com";
-		String try_password = "admin2020";
+		String try_password = "admin2010";
 		
 		String loginuser = AccountService.login(try_userid, try_password);
 		
-		// 1B 회원 정보 수정
-		String new_first_name = " ";
-		String new_last_name = " ";
-		String new_phone_number = " ";
+		// 수정될 객체 생성
+		String new_first_name = "Jongbin";
+		String new_last_name = "Woo";
+		String new_phone_number = "01012345678";
 		Date new_birthday = java.sql.Date.valueOf("2000-01-01");
-		String new_sex = " ";
-		String new_address = " ";
-		String new_job = " ";
-		String new_membership_status = " ";
-		Account new_user_info = new Account(loginuser,new_first_name,new_last_name,new_phone_number,new_birthday,new_sex,new_address,new_job,new_membership_status);
+		String new_sex = "F";
+		String new_address = "Daegu Bukgo Gyeongdaero";
+		String new_job = "Student";
+		Account new_user_info = new Account(loginuser,new_first_name,new_last_name,new_phone_number,new_birthday,new_sex,new_address,new_job);
+		
+		// 1B 회원 정보 수정
 		if(!(loginuser.equals(""))) AccountService.update_user_info(new_user_info);
 		
 		// 1C 비밀 번호 수정
@@ -76,11 +80,18 @@ public class MAIN {
 		m1.setRuntime(111);
 		
 		// 4A 관리자는 새로운 영상물을 등록 가능  
-		System.out.println("1A. Movie = " + m1.getMovie_title() +
+		System.out.println("4A. Movie = " + m1.getMovie_title() +
 						   ", Start year = " + m1.getStart_year());
 		AdminService.create_movie(m1);
 		
+		// 수정될 객체 생성
+		Movie new_movie_info = new Movie();
+		new_movie_info.setMovie_title("NEW MOVIE 2021");
+		new_movie_info.setType("Movie");
+		new_movie_info.setIs_adult(true);
+		new_movie_info.setStart_year(java.sql.Date.valueOf("2000-01-01"));
+		
 		// 4B 관리자는 등록된 영상물을 수정 가능
-//		AdminService.update_movie_info(Movie_id, new_info);
+		//AdminService.update_movie_info(301, new_movie_info);
 		}
 }
