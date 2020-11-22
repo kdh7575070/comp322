@@ -47,18 +47,18 @@ public class MovieService {
 	
 	public static ArrayList<String> srch_movie(String loginuser, String type, String genre_name, String version_id) throws ClassNotFoundException, SQLException {
 	
-		String sql = "SELECT Movie_id, Start_year FROM MOVIE WHERE movie_id IN (SELECT MOVIE.movie_id FROM MOVIE_GENRE, MOVIE FULL OUTER JOIN VERSION ON MOVIE.movie_id=VERSION.movie_id WHERE MOVIE.movie_id = MOVIE_GENRE.movie_id";
+		String sql = "SELECT Movie_id, Movie_title FROM MOVIE WHERE movie_id IN "
+				+ "((SELECT MOVIE.movie_id FROM MOVIE_GENRE, MOVIE FULL OUTER JOIN VERSION ON MOVIE.movie_id=VERSION.movie_id WHERE MOVIE.movie_id = MOVIE_GENRE.movie_id";
 		if(!(type.equals(""))) sql += " and Type = '" + type + "'";		
 		if(!(genre_name.equals(""))) sql += " and Genre_name = '" + genre_name + "'";
 		if(!(version_id.equals(""))) sql += " and Version_id = " + version_id;		
 		sql+= ")";
 		
-		sql += "MINUS  "
-				+ "Movie_id FROM Rating as R WHERE R.Account_id IN (SELECT A.Account_id FROM Account WHERE A.User_id = "
+		sql += "  EXCEPT  "
+				+ "SELECT R.Movie_id FROM Rating as R WHERE R.Account_id IN (SELECT A.Account_id FROM Account AS A WHERE A.User_id = '"
 				+ loginuser
-				+ ")";
-		
-		
+				+ "'))";
+
 		Class.forName(driver);
 		Connection con = DriverManager.getConnection(url, uid, pwd);
 		Statement st = con.createStatement();
@@ -66,19 +66,13 @@ public class MovieService {
 
 		ArrayList<String> movie_list = new ArrayList<String>();
 		
-		System.out.print("2B. Result is ");
-		
-		if(rs.next()) {
-			for(int i = 1; i<11 ; i++) System.out.print(rs.getString(i)+" / ");
-			System.out.println();
-			
-			movie_list.add(rs.getString(1));
-		}
+		System.out.println("2C. Result is ");
+
 		
 		while(rs.next()) {
-			System.out.print("              ");
-			for(int i = 1; i<11 ; i++) System.out.print(rs.getString(i)+" / ");
-			System.out.println();
+			
+			System.out.println(rs.getInt(1) +"    |    "+rs.getString(2));
+			
 	
 			movie_list.add(rs.getString(1));
 		}
