@@ -1,6 +1,7 @@
 package service;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,6 +9,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import java.util.ArrayList;
+
+import entity.Account;
+import entity.Rating;
 
 public class MovieService {
 //	private static String url = "jdbc:postgresql://localhost/testdb";
@@ -18,7 +22,22 @@ public class MovieService {
 	private static String uid = "postgres";
 	private static String pwd = "comp322";
 	private static String driver = "org.postgresql.Driver";
-			
+	
+	public static void show_all_movies() throws ClassNotFoundException, SQLException {
+		
+		String sql = "SELECT * FROM Movie";
+	
+		Class.forName(driver);
+		Connection con = DriverManager.getConnection(url, uid, pwd);
+		Statement st = con.createStatement();
+		ResultSet rs = st.executeQuery(sql);	
+		
+		System.out.println("2A. ALL MOVIEs ");
+		
+		while(rs.next()) {
+			System.out.println(rs.getInt(1) +"    |    "+rs.getString(2));
+		}
+	}
 	
 	public static void search_movie(String loginuser, String movie_title) throws ClassNotFoundException, SQLException {
 	
@@ -32,6 +51,7 @@ public class MovieService {
 	
 		PreparedStatement st = con.prepareStatement(sql);
 		st = con.prepareStatement(sql);
+		
 	
 		st.setString(1, movie_title);
 		st.setString(2, loginuser);
@@ -74,8 +94,49 @@ public class MovieService {
 			System.out.println(rs.getInt(1) +"    |    "+rs.getString(2));
 			
 	
-			movie_list.add(rs.getString(1));
+			movie_list.add(rs.getString(2));
 		}
 		return movie_list;
+	}
+	
+	public static void movie_rate(String loginuser, String movie_title, boolean likes, int ratings) throws ClassNotFoundException, SQLException {
+		int movie_id=0, account_id = 0;
+		String sql1 = "SELECT account_id FROM ACCOUNT WHERE user_id = '" + loginuser + "'";
+		String sql2 = "SELECT movie_id FROM Movie WHERE movie_title = '" + movie_title + "'";
+		
+		Class.forName(driver);
+		Connection con = DriverManager.getConnection(url, uid, pwd);
+		Statement st = con.createStatement();
+		
+		ResultSet rs = st.executeQuery(sql1);
+		while(rs.next())
+			account_id = rs.getInt(1);
+		
+		rs = st.executeQuery(sql2);
+		while (rs.next())
+			movie_id = rs.getInt(1);
+		
+		Rating new_rating = new Rating(account_id, movie_id);
+		
+		new_rating.setLikes(likes);
+		new_rating.setRatings(ratings);
+		
+		String sql = "INSERT INTO Rating ( "
+				+ "		Account_id,"
+				+ "		Movie_id,"
+				+ "		Likes,"
+				+ "		Ratings"
+				+ ") VALUES (?,?,?,?)";
+		
+		
+		PreparedStatement st1 = con.prepareStatement(sql);
+		st1.setInt(1, new_rating.getAccount_id());
+		st1.setInt(2, new_rating.getMovie_id());
+		st1.setBoolean(3, new_rating.getLikes());
+		st1.setInt(4, new_rating.getRatings());
+		
+		int result = st1.executeUpdate();
+		if (result == 1)
+			System.out.println("Rating created successfully");
 	}
 }
