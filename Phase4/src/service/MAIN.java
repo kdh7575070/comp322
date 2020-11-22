@@ -13,7 +13,7 @@ public class MAIN {
 		// 0 회원정보출력
 //		List<Account> list = AccountService.getList();
 //		System.out.println(list.get(1).getUser_id());
-//     	System.out.println();
+//     System.out.println();
 		
 		AccountService.delete_account("newadmin@newsvine.com"); //반복실행처리 
 		
@@ -77,7 +77,7 @@ public class MAIN {
 		if(!(loginuser.equals(""))) MovieService.search_movie(loginuser, "Future-proofed maximized budgetary management");
 		System.out.println();
 		
-		// 2C 특정 조건으로 영상물 검색 
+		// 2C 특정 조건으로 영상물 검색 & 2.E 회원이 평가한 영상물은 이후 검색대상에서 제외 
 		ArrayList<String> movie_list = new ArrayList<String>();
 		if(!(loginuser.equals(""))) movie_list = MovieService.srch_movie(loginuser, "Movie", "Action", "");
 		System.out.println();
@@ -92,6 +92,10 @@ public class MAIN {
 		String randomuserid = "ebarron9@shareasale.com";
 
 		// 3A true
+		
+		// 2.D 해당 영상물을 평가
+		System.out.println(movie_list.get(0));
+		if(!(loginuser.equals(""))) MovieService.movie_rate(loginuser, movie_list.get(0), false, 8);
 		
 		// 3B 자신의 평가 내역을 확인 
 		if(!(loginuser.equals(""))) AccountService.check_my_ratinglist(loginuser);
