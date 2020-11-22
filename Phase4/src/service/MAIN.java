@@ -13,9 +13,9 @@ public class MAIN {
 		// 0 회원정보출력
 //		List<Account> list = AccountService.getList();
 //		System.out.println(list.get(1).getUser_id());
-//     System.out.println();
+//		System.out.println();
 		
-		AccountService.delete_account("newadmin@newsvine.com"); //반복실행처리 
+//		AccountService.delete_account("newadmin@newsvine.com"); //반복실행처리 
 		
 		System.out.println("1-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 		System.out.println();
@@ -63,7 +63,7 @@ public class MAIN {
 		System.out.println();
 		
 		// 1E 회원 탈퇴 & 1F 관리자 계정은 최소 1개 이상 필요 
-//		if(!(loginuser.equals(""))) AccountService.delete_account(loginuser);
+//		if(!(loginuser.equals(""))) AccountService.delete_account(loginuser); // 맨 마지막에서 확인
 //		System.out.println();
 
 		System.out.println("2-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
@@ -85,6 +85,13 @@ public class MAIN {
 		// 2D 영화 상제정보 & 3D 평균평점 확인  
 		MovieService.movie_info("Future-proofed maximized budgetary management");
 		System.out.println();
+
+		// 2D 해당 영상물을 평가
+		if(!(loginuser.equals(""))) {
+			MovieService.movie_rate(loginuser, movie_list.get(0), false, 8);
+			System.out.println(" : " + movie_list.get(0));
+		}
+		System.out.println();
 		
 		System.out.println("3-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 		System.out.println();
@@ -93,13 +100,10 @@ public class MAIN {
 
 		// 3A true
 		
-		// 2.D 해당 영상물을 평가
-		System.out.println(movie_list.get(0));
-		if(!(loginuser.equals(""))) MovieService.movie_rate(loginuser, movie_list.get(0), false, 8);
-		
 		// 3B 자신의 평가 내역을 확인 
 		if(!(loginuser.equals(""))) AccountService.check_my_ratinglist(loginuser);
 //		if(!(randomuserid.equals(""))) AccountService.check_my_ratinglist(randomuserid); //결과 확인을 위해
+		System.out.println();
 		
 		// 3C 관리자는 모든 평가 내역을 확인 가능 
 		if(AccountService.Is_admin(loginuser)) AdminService.view_all_ratings();
@@ -132,5 +136,8 @@ public class MAIN {
 		// 4B 관리자는 등록된 영상물을 수정 가능
 		AdminService.update_movie_info(301, new_movie_info);
 		System.out.println();
-		}
+		
+		// 1E 회원탈퇴 
+		if(!(loginuser.equals(""))) AccountService.delete_account(loginuser);
+	}
 }

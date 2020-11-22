@@ -140,24 +140,22 @@ public class MovieService {
 		
 		int result = st1.executeUpdate();
 		if (result == 1)
-			System.out.println("Rating created successfully");
+			System.out.print("2D. Successfully created rating");
 	}
 	
 	public static void movie_info(String movie_title) throws ClassNotFoundException, SQLException {
+
+		String sql = "select * from movie natural join movie_genre where movie_title = ?";
 		
-		String sql = "select * from movie natural join movie_genre where movie_title = ? ";
-	
 		Class.forName(driver);
 		Connection con = DriverManager.getConnection(url, uid, pwd);
 	
 		PreparedStatement st = con.prepareStatement(sql);
-	
 		st.setString(1, movie_title);
-		
-		ResultSet rs = st.executeQuery();	
-		
+
 		System.out.println("2D. This movie info ");
 		
+		ResultSet rs = st.executeQuery();
 		rs.next();
 		
 		System.out.println("    제목 : " + rs.getString(2));
@@ -169,26 +167,23 @@ public class MovieService {
 		System.out.println("    감독 : " + rs.getString(7) + " " + rs.getString(8));
 		System.out.println("    상영시작일 : " + rs.getString(9));
 		System.out.println("    상영시간 : " + rs.getString(10) + "분");
+		System.out.println("    장르 : " + rs.getString(11));
 
-		sql = "select genre_name from movie natural join movie_genre where movie_title = ?";
+		sql = "select avg(ratings) from movie natural join rating where movie_title = ?";
 		
 		st = con.prepareStatement(sql);
-		
 		st.setString(1, movie_title);
 		
 		rs = st.executeQuery();
-		
 		rs.next();
-		System.out.println("    장르 : " + rs.getString(1));
+		System.out.println("    평균평점 : " + rs.getString(1));
 		
 		sql = "select concat(cast_first_name, ' ', cast_last_name), concat(real_first_name, ' ', real_last_name) from (movie natural join starred_by) natural join actor where movie_title = ? ";
 		
 		st = con.prepareStatement(sql);
-		
 		st.setString(1, movie_title);
 		
 		rs = st.executeQuery();
-		
 		System.out.print("    출연진정보 : ");
 		
 		while(rs.next()) {
@@ -199,6 +194,4 @@ public class MovieService {
 		
 		System.out.println();
 	}
-	
-	
 }

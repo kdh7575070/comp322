@@ -100,7 +100,7 @@ public class AdminService {
 		st.setInt(10, Movie_id);
 		
 		int rs = st.executeUpdate();
-		if (rs == 1) System.out.println("Update Successfully");
+		if (rs == 1) System.out.println("4B. Update Successfully");
 		st.close();
 		con.close();
 		
@@ -122,7 +122,7 @@ public class AdminService {
 		ResultSet rs = stmt.executeQuery(sql);
 		
 		if(rs.next()) {
-			System.out.print("3B. All ratings: ");
+			System.out.print("3C. All ratings: ");
 			System.out.println(rs.getString(1)+ " | " + rs.getString(2)+ " | " +  rs.getBoolean(3)+ " | " +  rs.getString(4));
 		}
 		
