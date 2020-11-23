@@ -33,7 +33,7 @@ src
     - srch_movie()          : 2.C 회원은 로그인 이후 특정 조건으로 등록된 영상물을 검색 가능 & 2.E 회원이 평가한 영상물은 이후 검색 대상에서 제외
     - movie_info()          : 2.D 검색한 영상물 목록에서 한 영상물을 선택하면 그 영상물의 정보 조회 가능 & 3.D 평균 평점 확인 가능
     - movie_rate()          : 2.D 해당 영상물을 평가할 수 있다.
-  -  AdminService.java 
+  - AdminService.java
     - view_all_ratings()    : 3.C 관리자는 모든 평가 내역을 확인 가능 
     - create_movie()        : 4.A 새로운 영상물을 등록 할 수 있다.
     - update_movie_info()   : 4.B 등록된 영상물의 정보를 수정할 수 있다.
