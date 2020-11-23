@@ -12,7 +12,7 @@ src
   - service
     - AccountService.java
     - AdminService.java
-    - MAIN.java
+    - [MAIN.java](https://github.com/kdh7575070/comp322/blob/main/Phase4/src/service/MAIN.java)
     - MovieService.java
 
 ### 1. Entity package 안에는 Account, Movie, Rating class와 각각의 생성자, getter, setter를 만들었습니다.
