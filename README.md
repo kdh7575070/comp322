@@ -1,6 +1,6 @@
 # comp322 database project
 개발 환경
--OS : ubuntu 18.04
+-OS : ubuntu 18.04\
 -DBMS : PostgreSQL 13.0
 
 ## ** Application 구조 설명 **
