@@ -14,8 +14,6 @@ public class MAIN {
 //		System.out.println(list.get(1).getUser_id());
 //		System.out.println();
 		
-		AccountService.delete_account("newadmin@newsvine.com"); //반복실행처리 
-		
 		System.out.println("1-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 		System.out.println();
 		
