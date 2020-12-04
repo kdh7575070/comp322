@@ -14,9 +14,9 @@ import java.util.List;
 import entity.Account;
 
 public class AccountService {
-	private static String url = "jdbc:postgresql://localhost/knumovie";
-	private static String uid = "postgres";
-	private static String pwd = "comp322";
+	private static String url = "jdbc:postgresql://localhost/testdb";
+	private static String uid = "taeha";
+	private static String pwd = "testdb";
 	private static String driver = "org.postgresql.Driver";
 			
 	public static List<Account> getList() throws ClassNotFoundException, SQLException {
@@ -38,7 +38,7 @@ public class AccountService {
 			Date Birthday = rs.getDate("Birthday");
 			String Sex = rs.getString("Sex");
 			String Address = rs.getString("Address");
-			String Job = rs.getString("Job");
+			int Job = rs.getInt("Job");
 			boolean Is_admin = rs.getBoolean("Is_admin");
 
 			Account account = new Account(
@@ -69,7 +69,7 @@ public class AccountService {
 		Date Birthday = account.getBirthday();
 		String Sex = account.getSex();
 		String Address = account.getAddress();
-		String Job = account.getJob();
+		int Job = account.getJob();
 		boolean Is_admin = account.getIs_admin();
 		
 		String sql = "INSERT INTO Account ( "
@@ -96,12 +96,12 @@ public class AccountService {
 		st.setDate(6, Birthday);
 		st.setString(7, Sex);
 		st.setString(8, Address);
-		st.setString(9, Job);
+		st.setInt(9, Job);
 		st.setBoolean(10, Is_admin);
 		
 		int rs = st.executeUpdate();
 		System.out.println("User created successfully");
-		return rs;
+		return 1;		
 	}
 	
 	public static String login(String User_id, String Password) throws ClassNotFoundException, SQLException {
@@ -194,7 +194,7 @@ public class AccountService {
 		st.setDate(4, new_info.getBirthday());
 		st.setString(5, new_info.getSex());
 		st.setString(6, new_info.getAddress());
-		st.setString(7, new_info.getJob());
+		st.setInt(7, new_info.getJob());
 		st.setString(8, new_info.getMembership_status());
 		st.setString(9, new_info.getUser_id());
 		
@@ -228,7 +228,7 @@ public class AccountService {
 	
 	public static void check_my_ratinglist(String loginuser) throws ClassNotFoundException, SQLException {
 		
-		String sql = "SELECT movie_title, likes, ratings " + 
+		String sql = "SELECT movie_title, ratings " + 
 					   "FROM Rating NATURAL JOIN movie " + 
 					   "WHERE account_id IN" + 
 					   "	(SELECT account_id " + 
@@ -245,13 +245,13 @@ public class AccountService {
 		ResultSet rs = st.executeQuery();
 
 		System.out.print("3B. My ratings: ");
-		System.out.println(" MOVIE_TITLE | LIKE | RATE");
+		System.out.println(" MOVIE_TITLE | RATE");
 		while(rs.next()) {
-			System.out.println("                 " + rs.getString(1)+ " | " + rs.getBoolean(2)+ " | " +  rs.getInt(3));
+			System.out.println("                 " + rs.getString(1)+ " | " + rs.getString(2));
 		}
 		
 		while(rs.next()) {
-			System.out.println("                " + rs.getString(1)+ " | " + rs.getBoolean(2)+ " | " +  rs.getInt(3));
+			System.out.println("                " + rs.getString(1)+ " | " + rs.getString(2));
 		}
 	}
 	

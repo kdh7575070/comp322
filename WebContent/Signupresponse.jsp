@@ -54,7 +54,7 @@
 	if(!(request.getParameter("bd").equals(""))) a1.setBirthday(java.sql.Date.valueOf(request.getParameter("bd")));
 	if(!(request.getParameter("sx").equals(""))) a1.setSex(request.getParameter("sx"));
 	if(!(request.getParameter("ad").equals(""))) a1.setAddress(request.getParameter("ad"));
-	if(!(request.getParameter("jb").equals(""))) a1.setJob(request.getParameter("jb"));
+	if(!(request.getParameter("jb").equals(""))) a1.setJob(Integer.parseInt(request.getParameter("jb")));
 
 	AccountService accountService = new AccountService();
 
@@ -68,8 +68,7 @@
 
 		script.println("<script>");
 		script.println("alert('Signed up successful!')");
-		script.println("history.back()");
-		//script.println("<location.href = 'main.jsp'");
+		script.println("location.href = 'main.jsp'");
 		script.println("</script>");
 
 	}

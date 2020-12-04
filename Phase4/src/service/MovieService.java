@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import entity.Rating;
 
 public class MovieService {
-	private static String url = "jdbc:postgresql://localhost/knumovie";
-	private static String uid = "postgres";
-	private static String pwd = "comp322";
+	private static String url = "jdbc:postgresql://localhost/testdb";
+	private static String uid = "taeha";
+	private static String pwd = "testdb";
 	private static String driver = "org.postgresql.Driver";
 			
 	
@@ -121,16 +121,14 @@ public class MovieService {
 		String sql = "INSERT INTO Rating ( "
 				+ "		Account_id,"
 				+ "		Movie_id,"
-				+ "		Likes,"
 				+ "		Ratings"
-				+ ") VALUES (?,?,?,?)";
+				+ ") VALUES (?,?,?)";
 		
 		
 		PreparedStatement st1 = con.prepareStatement(sql);
 		st1.setInt(1, new_rating.getAccount_id());
 		st1.setInt(2, new_rating.getMovie_id());
-		st1.setBoolean(3, new_rating.getLikes());
-		st1.setInt(4, new_rating.getRatings());
+		st1.setInt(3, new_rating.getRatings());
 		
 		int result = st1.executeUpdate();
 		if (result == 1)

@@ -11,9 +11,9 @@ import java.sql.Date;
 import entity.Movie;
 
 public class AdminService {
-	private static String url = "jdbc:postgresql://localhost/knumovie";
-	private static String uid = "postgres";
-	private static String pwd = "comp322";
+	private static String url = "jdbc:postgresql://localhost/testdb";
+	private static String uid = "taeha";
+	private static String pwd = "testdb";
 	private static String driver = "org.postgresql.Driver";
 
 	public static int create_movie(Movie movie) throws ClassNotFoundException, SQLException {
@@ -107,7 +107,7 @@ public class AdminService {
 		/*
 		 * 3.C 모든 평가 내역 확인
 		 */
-		String sql = "SELECT movie_title, user_id, likes, ratings "
+		String sql = "SELECT movie_title, user_id, ratings "
 				+ "FROM Rating NATURAL JOIN movie NATURAL JOIN Account "
 				+ "ORDER BY Movie_title";
 				   
@@ -119,11 +119,11 @@ public class AdminService {
 		
 		if(rs.next()) {
 			System.out.print("3C. All ratings: ");
-			System.out.println(rs.getString(1)+ " | " + rs.getString(2)+ " | " +  rs.getBoolean(3)+ " | " +  rs.getString(4));
+			System.out.println(rs.getString(1)+ " | " + rs.getString(2)+ " | " +  rs.getString(3));
 		}
 		
 		while(rs.next()) {
-			System.out.println("                 " + rs.getString(1)+ " | " + rs.getString(2)+ " | " +  rs.getBoolean(3)+ " | " +  rs.getString(4));
+			System.out.println("                 " + rs.getString(1)+ " | " + rs.getString(2)+ " | " +  rs.getString(3));
 		}
 	}
 }
