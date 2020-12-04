@@ -42,8 +42,7 @@
 
 		script.println("<script>");
 		script.println("alert('Login successful!')");
-		script.println("history.back()");
-		//script.println("<location.href = 'main.jsp'");
+		script.println("location.href = 'Main.jsp'");
 		script.println("</script>");
 
 	}
