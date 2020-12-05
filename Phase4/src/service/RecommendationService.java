@@ -13,9 +13,9 @@ import entity.Account;
 
 
 public class RecommendationService {
-	private static String url = "jdbc:postgresql://localhost/movietest";
-	private static String uid = "postgres";
-	private static String pwd = "comp322";
+	private static String url = "jdbc:postgresql://localhost/testdb";
+	private static String uid = "taeha";
+	private static String pwd = "testdb";
 	private static String driver = "org.postgresql.Driver";
 	
 	public static void give_recommedation(Account account) throws ClassNotFoundException, SQLException, IOException {

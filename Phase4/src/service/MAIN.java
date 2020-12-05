@@ -1,5 +1,6 @@
 package service;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import entity.Movie;
 
 public class MAIN {
 
-	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+	public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException {
 		// 0 회원정보출력
 //		List<Account> list = AccountService.getList();
 //		System.out.println(list.get(1).getUser_id());
@@ -24,6 +25,7 @@ public class MAIN {
 		a1.setFirst_name("Bill");
 		a1.setLast_name("Gates");
 		a1.setPhone_number("01022223333");
+		a1.setSex("F");
 		a1.setIs_admin(true);
 		
 		// 1A 회원가입
@@ -48,7 +50,7 @@ public class MAIN {
 		Date new_birthday = java.sql.Date.valueOf("2000-01-01");
 		String new_sex = "F";
 		String new_address = "Daegu Bukgo Gyeongdaero";
-		String new_job = "Student";
+		int new_job = 2;
 		Account new_user_info = new Account(loginuser,new_first_name,new_last_name,new_phone_number,new_birthday,new_sex,new_address,new_job);
 		
 		// 1B 회원 정보 수정
@@ -71,7 +73,7 @@ public class MAIN {
 		System.out.println();
 		
 		// 2B 제목으로 영상물 검색 
-		if(!(loginuser.equals(""))) MovieService.search_movie(loginuser, "Future-proofed maximized budgetary management");
+		if(!(loginuser.equals(""))) MovieService.search_movie(loginuser, "Heat");
 		System.out.println();
 		
 		// 2C 특정 조건으로 영상물 검색 & 2.E 회원이 평가한 영상물은 이후 검색대상에서 제외 
@@ -80,7 +82,7 @@ public class MAIN {
 		System.out.println();
 		
 		// 2D 영화 상제정보 & 3D 평균평점 확인  
-		MovieService.movie_info("Future-proofed maximized budgetary management");
+		MovieService.movie_info("Heat");
 		System.out.println();
 
 		// 2D 해당 영상물을 평가
@@ -103,9 +105,9 @@ public class MAIN {
 		System.out.println();
 		
 		// 3C 관리자는 모든 평가 내역을 확인 가능 
-		if(AccountService.Is_admin(loginuser)) AdminService.view_all_ratings();
-		else System.out.println("3C. Only admin can approach this view");
-		System.out.println();
+//		if(AccountService.Is_admin(loginuser)) AdminService.view_all_ratings();
+//		else System.out.println("3C. Only admin can approach this view");
+//		System.out.println();
 		
 		System.out.println("4-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 		System.out.println();
@@ -136,5 +138,7 @@ public class MAIN {
 		
 		// 1E 회원탈퇴 
 		if(!(loginuser.equals(""))) AccountService.delete_account(loginuser);
+
+		RecommendationService.give_recommedation(a1);
 	}
 }

@@ -30,10 +30,10 @@
 		
 	} catch (Exception e) {
 	
-		e.printStackTrace(); // ¿À·ù°¡ ¹«¾ùÀÎÁö Ãâ·Â
+		e.printStackTrace(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	}
 	
-	//ÇÊ¼öÁ¤º¸ ´©¶ô
+	//ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	
 	if( (request.getParameter("id").equals("")) || (request.getParameter("pw").equals("")) || (request.getParameter("fn").equals("")) || (request.getParameter("ln").equals("")) || (request.getParameter("pn").equals("")) ){
 		
@@ -54,13 +54,13 @@
 	if(!(request.getParameter("bd").equals(""))) a1.setBirthday(java.sql.Date.valueOf(request.getParameter("bd")));
 	if(!(request.getParameter("sx").equals(""))) a1.setSex(request.getParameter("sx"));
 	if(!(request.getParameter("ad").equals(""))) a1.setAddress(request.getParameter("ad"));
-	if(!(request.getParameter("jb").equals(""))) a1.setJob(request.getParameter("jb"));
+	if(!(request.getParameter("jb").equals(""))) a1.setJob(Integer.parseInt(request.getParameter("jb")));
 
 	AccountService accountService = new AccountService();
 
 	String result = "" + accountService.create_account(a1);
 
-	//È¸¿ø°¡ÀÔ ¼º°ø
+	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 	if(!result.equals("")){
 		session.setAttribute("User_id", a1.getUser_id());
