@@ -18,9 +18,9 @@
 
 	try {
 	
-		String url = "jdbc:postgresql://localhost/testdb";
-		String uid = "testdb";
-		String pwd = "testdb";
+		String url = "jdbc:postgresql://localhost/movietest";
+		String uid = "postgres";
+		String pwd = "comp322";
 		String driver = "org.postgresql.Driver";
 		
 		Class.forName(driver);
@@ -32,14 +32,17 @@
 	}
 
 	AccountService accountService = new AccountService();
-	String result = "" + accountService.login(request.getParameter("id"), request.getParameter("pw"));
+	String User_id = request.getParameter("id");
+	String result = "" + accountService.login(User_id, request.getParameter("pw"));
 
 	//로그인 성공
 
 	if(!result.equals("")){
+		session.setAttribute("User_id", User_id);
+		
 
 		PrintWriter script = response.getWriter();
-
+		
 		script.println("<script>");
 		script.println("alert('Login successful!')");
 		script.println("location.href = 'Main.jsp'");

@@ -51,7 +51,7 @@
             			// 로그인이 되어있는 사람만 볼수 있는 화면
                 			} else {
             			%>
-            			<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="">Logout</a></li>
+            			<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="Logout.jsp">Logout</a></li>
             			<% } %>
                     </ul>
                 </div>
@@ -108,6 +108,7 @@
                     </div>
                 </div>
             </div>
+            추천결과
         </section>
          <!-- Recom Section-->
         <section class="page-section bg-primary text-white mb-0" id="recom">
