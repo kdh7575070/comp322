@@ -63,15 +63,15 @@
 	//회원가입 성공
 
 	if(!result.equals("")){
+		session.setAttribute("User_id", a1.getUser_id());
+		
 
 		PrintWriter script = response.getWriter();
-
+		
 		script.println("<script>");
 		script.println("alert('Signed up successful!')");
-		script.println("history.back()");
-		//script.println("<location.href = 'main.jsp'");
+		script.println("location.href = 'Main.jsp'");
 		script.println("</script>");
-
 	}
 
 %>

@@ -11,7 +11,7 @@
     <h2> ---- LOGIN ---- </h2>
     <form action ="Loginresponse.jsp" method = "POST">
         id: <input type = "text" name = "id" />
-    	pw: <input type = "text" name = "pw" />
+    	 pw: <input type = "text" name = "pw" />
     	<input type = "submit" value="Submit" />
 	</form>
 </body>
