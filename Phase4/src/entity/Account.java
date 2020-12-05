@@ -11,13 +11,13 @@ public class Account {
 	private Date Birthday;
 	private String Sex;
 	private String Address;
-	private String Job; 
+	private int Job; 
 	private String Membership_status;
 	private boolean Is_admin;
 	
 	
 	public Account(String user_id, String password, String first_name, String last_name, String phone_number,
-			Date birthday, String sex, String address, String job, boolean is_admin) {
+			Date birthday, String sex, String address, int job, boolean is_admin) {
 	
 		User_id = user_id;
 		Password = password;
@@ -36,7 +36,7 @@ public class Account {
 	}
 
 	public Account(String user_id,String first_name, String last_name, String phone_number,
-			Date birthday, String sex, String address, String job) {
+			Date birthday, String sex, String address, int job) {
 		super();
 		User_id = user_id;
 		First_name = first_name;
@@ -96,10 +96,10 @@ public class Account {
 	public void setAddress(String address) {
 		Address = address;
 	}
-	public String getJob() {
+	public int getJob() {
 		return Job;
 	}
-	public void setJob(String job) {
+	public void setJob(int job) {
 		Job = job;
 	}
 	public String getMembership_status() {
