@@ -34,7 +34,10 @@
 	AccountService accountService = new AccountService();
 	String User_id = request.getParameter("id");
 	accountService.delete_account((String)session.getAttribute("User_id"));
+	
 	session.removeAttribute("User_id");
+	session.removeAttribute("New_user");
+	
 	response.sendRedirect("Main.jsp");
 	
 %>

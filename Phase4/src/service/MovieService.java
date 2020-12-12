@@ -12,30 +12,31 @@ import java.util.ArrayList;
 import entity.Rating;
 
 public class MovieService {
-	private static String url = "jdbc:postgresql://localhost/testdb";
-	private static String uid = "taeha";
-	private static String pwd = "testdb";
+	private static String url = "jdbc:postgresql://localhost/movietest";
+	private static String uid = "postgres";
+	private static String pwd = "comp322";
 	private static String driver = "org.postgresql.Driver";
 			
 	
-	public static void show_all_movies() throws ClassNotFoundException, SQLException {
+	public static ArrayList<String> show_all_movies() throws ClassNotFoundException, SQLException {
 		
-		String sql = "SELECT * FROM Movie";
+		String sql = "SELECT movie_title FROM Movie";
 	
 		Class.forName(driver);
 		Connection con = DriverManager.getConnection(url, uid, pwd);
 		Statement st = con.createStatement();
 		ResultSet rs = st.executeQuery(sql);	
-		
+		ArrayList<String> movie_list = new ArrayList<String>();
 		System.out.println("2A. ALL MOVIEs are");
 		
 		while(rs.next()) {
-			System.out.printf("%3d", rs.getInt(1));
-			System.out.println(" " + rs.getString(2));
+			movie_list.add(rs.getString(1));
+			
 		}
+		return movie_list;
 	}
 	
-	public static void search_movie(String loginuser, String movie_title) throws ClassNotFoundException, SQLException {
+	public static ArrayList<String> search_movie(String loginuser, String movie_title) throws ClassNotFoundException, SQLException {
 	
 		String sql = ""
 				+ "SELECT Movie_id, Movie_title From movie where movie_id in (SELECT Movie_id FROM Movie WHERE Movie_title = ?"
@@ -52,12 +53,15 @@ public class MovieService {
 		
 		ResultSet rs = st.executeQuery();	
 		
-		System.out.println("2B. Result is ");
+		ArrayList<String> movie_list = new ArrayList<String>();
 		
+		System.out.println("2B. Result is ");
 		while(rs.next()) {
 			System.out.printf("%3d", rs.getInt(1));
 			System.out.println(" " + rs.getString(2));
+			movie_list.add(rs.getString(2));
 		}
+		return movie_list;
 	}
 	
 	public static ArrayList<String> srch_movie(String loginuser, String type, String genre_name, String version_id) throws ClassNotFoundException, SQLException {
@@ -96,7 +100,7 @@ public class MovieService {
 		return movie_list;
 	}
 	
-	public static void movie_rate(String loginuser, String movie_title, boolean likes, int ratings) throws ClassNotFoundException, SQLException {
+	public static int movie_rate(String loginuser, String movie_title,int ratings) throws ClassNotFoundException, SQLException {
 		int movie_id=0, account_id = 0;
 		String sql1 = "SELECT account_id FROM ACCOUNT WHERE user_id = '" + loginuser + "'";
 		String sql2 = "SELECT movie_id FROM Movie WHERE movie_title = '" + movie_title + "'";
@@ -114,8 +118,6 @@ public class MovieService {
 			movie_id = rs.getInt(1);
 		
 		Rating new_rating = new Rating(account_id, movie_id);
-		
-		new_rating.setLikes(likes);
 		new_rating.setRatings(ratings);
 		
 		String sql = "INSERT INTO Rating ( "
@@ -133,6 +135,7 @@ public class MovieService {
 		int result = st1.executeUpdate();
 		if (result == 1)
 			System.out.print("2D. Successfully created rating");
+		return result;
 	}
 	
 	public static void movie_info(String movie_title) throws ClassNotFoundException, SQLException {

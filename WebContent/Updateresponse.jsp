@@ -35,7 +35,7 @@
 	
 	//필수정보 누락
 	
-	if( (request.getParameter("id").equals("")) || (request.getParameter("pw").equals("")) || (request.getParameter("fn").equals("")) || (request.getParameter("ln").equals("")) || (request.getParameter("pn").equals("")) ){
+	if( (request.getParameter("fn").equals("")) || (request.getParameter("ln").equals("")) || (request.getParameter("pn").equals("")) ){
 		
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
@@ -46,34 +46,29 @@
 	}
 
 	Account a1 = new Account();
-	a1.setUser_id(request.getParameter("id"));
-	a1.setPassword(request.getParameter("pw"));
+	a1.setUser_id((String)session.getAttribute("User_id"));
 	a1.setFirst_name(request.getParameter("fn"));
 	a1.setLast_name(request.getParameter("ln"));
 	a1.setPhone_number(request.getParameter("pn"));
 	if(!(request.getParameter("bd").equals(""))) a1.setBirthday(java.sql.Date.valueOf(request.getParameter("bd")));
 	if(!(request.getParameter("sx").equals(""))) a1.setSex(request.getParameter("sx"));
 	if(!(request.getParameter("ad").equals(""))) a1.setAddress(request.getParameter("ad"));
-	if(!(request.getParameter("jb").equals(""))) a1.setJob(request.getParameter("jb"));
+	if(!(request.getParameter("jb").equals(""))) a1.setJob(Integer.parseInt(request.getParameter("jb")));
 
 	AccountService accountService = new AccountService();
 
-	String result = "" + accountService.create_account(a1);
+	String result = "" + accountService.update_user_info(a1);
 
-	//회원가입 성공
-
-	if(!result.equals("")){
+	if(result.equals("1")){
 
 		PrintWriter script = response.getWriter();
 
 		script.println("<script>");
-		script.println("alert('Signed up successful!')");
+		script.println("alert('Chnage successful!')");
 		script.println("history.back()");
-		//script.println("<location.href = 'main.jsp'");
 		script.println("</script>");
 
 	}
-
 %>
 	
 </body>

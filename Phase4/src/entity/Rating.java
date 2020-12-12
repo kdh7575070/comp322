@@ -3,7 +3,6 @@ package entity;
 public class Rating {
 	private int Account_id;
 	private int Movie_id;
-	private boolean Likes;
 	private int Ratings;
 	
 	
@@ -24,12 +23,7 @@ public class Rating {
 	public void setMovie_id(int movie_id) {
 		Movie_id = movie_id;
 	}
-	public boolean getLikes() {
-		return Likes;
-	}
-	public void setLikes(boolean likes) {
-		Likes = likes;
-	}
+	
 	public int getRatings() {
 		return Ratings;
 	}

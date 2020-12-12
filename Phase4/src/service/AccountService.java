@@ -14,9 +14,9 @@ import java.util.List;
 import entity.Account;
 
 public class AccountService {
-	private static String url = "jdbc:postgresql://localhost/testdb";
-	private static String uid = "taeha";
-	private static String pwd = "testdb";
+	private static String url = "jdbc:postgresql://localhost/movietest";
+	private static String uid = "postgres";
+	private static String pwd = "comp322";
 	private static String driver = "org.postgresql.Driver";
 			
 	public static List<Account> getList() throws ClassNotFoundException, SQLException {
@@ -60,7 +60,7 @@ public class AccountService {
 		return list;
 	}
 	
-	public static int create_account(Account account) throws ClassNotFoundException, SQLException {
+	public static int create_account(Account account) throws ClassNotFoundException {
 		String User_id = account.getUser_id();
 		String Password = account.getPassword();
 		String First_name = account.getFirst_name();
@@ -72,6 +72,7 @@ public class AccountService {
 		int Job = account.getJob();
 		boolean Is_admin = account.getIs_admin();
 		
+		try {
 		String sql = "INSERT INTO Account ( "
 				+ "		User_id,"
 				+ "		Password,"
@@ -99,9 +100,18 @@ public class AccountService {
 		st.setInt(9, Job);
 		st.setBoolean(10, Is_admin);
 		
+		
+		
+		//if () {
 		int rs = st.executeUpdate();
 		System.out.println("User created successfully");
-		return 1;		
+		return 1;
+		//}
+		} catch (Exception e) {
+			
+			e.printStackTrace(); // 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占�
+			return 0;
+		}
 	}
 	
 	public static String login(String User_id, String Password) throws ClassNotFoundException, SQLException {
@@ -181,8 +191,7 @@ public class AccountService {
 				+ "		Birthday=?,"
 				+ "		Sex=?,"
 				+ "		Address=?,"
-				+ "		Job=?,"
-				+ "		Membership_status=?"
+				+ "		Job=?"
 				+ "   WHERE user_id=?";
 		
 		Class.forName(driver);
@@ -195,8 +204,7 @@ public class AccountService {
 		st.setString(5, new_info.getSex());
 		st.setString(6, new_info.getAddress());
 		st.setInt(7, new_info.getJob());
-		st.setString(8, new_info.getMembership_status());
-		st.setString(9, new_info.getUser_id());
+		st.setString(8, new_info.getUser_id());
 		
 		int rs = st.executeUpdate();
 		if (rs == 1) System.out.println("1B. Update Successfully");
@@ -226,8 +234,9 @@ public class AccountService {
 		return rs;
 	}
 	
-	public static void check_my_ratinglist(String loginuser) throws ClassNotFoundException, SQLException {
-		
+	public static ArrayList<String> check_my_ratinglist(String loginuser) throws ClassNotFoundException, SQLException {
+		String path = System.getProperty("user.dir");
+	    System.out.println("Working Directory = " + path);
 		String sql = "SELECT movie_title, ratings " + 
 					   "FROM Rating NATURAL JOIN movie " + 
 					   "WHERE account_id IN" + 
@@ -243,16 +252,20 @@ public class AccountService {
 	
 		st.setString(1, loginuser);
 		ResultSet rs = st.executeQuery();
+		
+		ArrayList<String> movie_rate_list = new ArrayList<String>();
 
 		System.out.print("3B. My ratings: ");
 		System.out.println(" MOVIE_TITLE | RATE");
+		System.out.println(movie_rate_list.size());
 		while(rs.next()) {
 			System.out.println("                 " + rs.getString(1)+ " | " + rs.getString(2));
-		}
-		
-		while(rs.next()) {
-			System.out.println("                " + rs.getString(1)+ " | " + rs.getString(2));
-		}
+			movie_rate_list.add(rs.getString(1) + "  " + rs.getString(2));
+			
+		}	
+		System.out.println(movie_rate_list.size());
+
+		return movie_rate_list;
 	}
 	
 public static boolean Is_admin(String User_id) throws ClassNotFoundException, SQLException {

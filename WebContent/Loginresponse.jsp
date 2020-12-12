@@ -40,6 +40,7 @@
 	if(!result.equals("")){
 		session.setAttribute("User_id", User_id);
 		
+		
 
 		PrintWriter script = response.getWriter();
 		
