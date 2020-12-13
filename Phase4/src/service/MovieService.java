@@ -54,19 +54,19 @@ public class MovieService {
 //			System.out.println("Connection.TRANSACTION_SERIALIZABLE");
 //		}
 		con.setAutoCommit(false);
-		String sql_t1 = "";
-		sql_t1 = "set transaction isolation level serializable";
-		PreparedStatement pstmt_t1 = con.prepareStatement(sql_t1);
-		int rs_t1=pstmt_t1.executeUpdate();
-		sql_t1 = "BEGIN";
-		pstmt_t1 = con.prepareStatement(sql_t1);
-		rs_t1=pstmt_t1.executeUpdate();
+		String sql_t = "";
+		sql_t = "set transaction isolation level serializable";
+		PreparedStatement pstmt = con.prepareStatement(sql_t);
+		int rs_t1= pstmt.executeUpdate();
+		sql_t = "BEGIN";
+		pstmt = con.prepareStatement(sql_t);
+		rs_t1=pstmt.executeUpdate();
 		
 		PreparedStatement st = con.prepareStatement(sql);
 		st.setString(1, movie_title);
 		st.setString(2, loginuser);
 //		System.out.println(con.getTransactionIsolation());
-		Thread.sleep(2000);
+		Thread.sleep(1000);
 		ResultSet rs = st.executeQuery();	
 		
 		ArrayList<String> movie_list = new ArrayList<String>();
@@ -78,9 +78,9 @@ public class MovieService {
 			movie_list.add(rs.getString(2));
 		}
 		
-		sql_t1 = "COMMIT";
-		pstmt_t1 = con.prepareStatement(sql_t1);
-		rs_t1=pstmt_t1.executeUpdate();
+		sql_t = "COMMIT";
+		pstmt = con.prepareStatement(sql_t);
+		rs_t1=pstmt.executeUpdate();
 		con.commit();
 		con.setAutoCommit(true);
 		return movie_list;
