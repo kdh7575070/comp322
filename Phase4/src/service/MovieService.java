@@ -1,6 +1,7 @@
 package service;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import entity.Rating;
 
@@ -36,7 +38,7 @@ public class MovieService {
 		return movie_list;
 	}
 	
-	public static ArrayList<String> search_movie(String loginuser, String movie_title) throws ClassNotFoundException, SQLException {
+	public static ArrayList<String> search_movie(String loginuser, String movie_title) throws ClassNotFoundException, SQLException, InterruptedException {
 	
 		String sql = ""
 				+ "SELECT Movie_id, Movie_title From movie where movie_id in (SELECT Movie_id FROM Movie WHERE Movie_title = ?"
@@ -45,12 +47,26 @@ public class MovieService {
 	
 		Class.forName(driver);
 		Connection con = DriverManager.getConnection(url, uid, pwd);
-	
+		
+//		DatabaseMetaData dbMetaData = con.getMetaData();
+//		if (dbMetaData.supportsTransactionIsolationLevel(Connection.TRANSACTION_SERIALIZABLE)) {
+//			con.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+//			System.out.println("Connection.TRANSACTION_SERIALIZABLE");
+//		}
+		con.setAutoCommit(false);
+		String sql_t1 = "";
+		sql_t1 = "set transaction isolation level serializable";
+		PreparedStatement pstmt_t1 = con.prepareStatement(sql_t1);
+		int rs_t1=pstmt_t1.executeUpdate();
+		sql_t1 = "BEGIN";
+		pstmt_t1 = con.prepareStatement(sql_t1);
+		rs_t1=pstmt_t1.executeUpdate();
+		
 		PreparedStatement st = con.prepareStatement(sql);
-	
 		st.setString(1, movie_title);
 		st.setString(2, loginuser);
-		
+//		System.out.println(con.getTransactionIsolation());
+		Thread.sleep(2000);
 		ResultSet rs = st.executeQuery();	
 		
 		ArrayList<String> movie_list = new ArrayList<String>();
@@ -61,10 +77,16 @@ public class MovieService {
 			System.out.println(" " + rs.getString(2));
 			movie_list.add(rs.getString(2));
 		}
+		
+		sql_t1 = "COMMIT";
+		pstmt_t1 = con.prepareStatement(sql_t1);
+		rs_t1=pstmt_t1.executeUpdate();
+		con.commit();
+		con.setAutoCommit(true);
 		return movie_list;
 	}
 	
-	public static ArrayList<String> srch_movie(String loginuser, String type, String genre_name, String version_id) throws ClassNotFoundException, SQLException {
+	public static ArrayList<String> srch_movie(String loginuser, String type, String genre_name, String version_id) throws ClassNotFoundException, SQLException, InterruptedException {
 	
 		String sql = "SELECT Movie_id, Movie_title FROM MOVIE WHERE movie_id IN "
 				+ "((SELECT MOVIE.movie_id FROM MOVIE_GENRE, MOVIE FULL OUTER JOIN VERSION ON MOVIE.movie_id=VERSION.movie_id WHERE MOVIE.movie_id = MOVIE_GENRE.movie_id";
@@ -80,7 +102,12 @@ public class MovieService {
 
 		Class.forName(driver);
 		Connection con = DriverManager.getConnection(url, uid, pwd);
+//		DatabaseMetaData dbMetaData = con.getMetaData();
+//		if (dbMetaData.supportsTransactionIsolationLevel(Connection.TRANSACTION_SERIALIZABLE)) {
+//			con.setTransactionIsolation(8);
+//		}
 		Statement st = con.createStatement();
+		TimeUnit.SECONDS.sleep(5);
 		ResultSet rs = st.executeQuery(sql);
 
 		ArrayList<String> movie_list = new ArrayList<String>();

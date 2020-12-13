@@ -21,7 +21,7 @@ public class RecommendationService {
 	private static String uid = "postgres";
 	private static String pwd = "comp322";
 	private static String driver = "org.postgresql.Driver";
-	private static Jep jep;
+	
 	
 	
 	public static ArrayList<String> give_recommedation(int sex, int age, int job) throws ClassNotFoundException, SQLException, IOException {
@@ -32,15 +32,11 @@ public class RecommendationService {
 			
 			
 			JepConfig config = new JepConfig();
-			config.setIncludePath("./DB_project/phase3/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/comp322/py_package");
-			
-			@SuppressWarnings("deprecation")
+			config.setIncludePath("./DB_project/phase3/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/comp322/py_package");			
 			Jep jep = new Jep(config);
 			
 //			jep.eval("import numpy as np");
-			System.out.print(1);
 			jep.eval("from joblib import dump, load");
-			System.out.print(1);
 			jep.eval("kmode = load('./DB_project/phase3/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/comp322/kmode.joblib')");
 			String sx = Integer.toString(sex);
 			String ag = Integer.toString(age);
@@ -52,6 +48,7 @@ public class RecommendationService {
 			
 			
 			String clusters = jep.getValue("data").toString();
+			jep.close();
 			System.out.println(clusters);
 			int cluster = Integer.parseInt(clusters);
 			// cluster넣으면 추천 영화 나오도록.

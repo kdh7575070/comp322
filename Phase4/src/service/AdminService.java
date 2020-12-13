@@ -1,6 +1,7 @@
 package service;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -46,6 +47,17 @@ public class AdminService {
 		
 		Class.forName(driver);
 		Connection con = DriverManager.getConnection(url, uid, pwd);
+//		DatabaseMetaData dbMetaData = con.getMetaData();
+//		if (dbMetaData.supportsTransactionIsolationLevel(Connection.TRANSACTION_SERIALIZABLE)) {
+//			con.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+//			System.out.println("Connection.TRANSACTION_SERIALIZABLE");
+//		}
+		con.setAutoCommit(false);
+		String sql_t1 = "";
+		sql_t1 = "set transaction isolation level serializable";
+		PreparedStatement pstmt_t1 = con.prepareStatement(sql_t1);
+		int rs_t1=pstmt_t1.executeUpdate();
+		
 		PreparedStatement st = con.prepareStatement(sql);
 		st.setString(1, Movie_title);
 		st.setString(2, Type);
@@ -59,6 +71,12 @@ public class AdminService {
 		
 		int rs = st.executeUpdate();
 		System.out.println("Movie created successfully");
+		Thread.sleep(1000);
+		sql_t1 = "commit";
+		pstmt_t1 = con.prepareStatement(sql_t1);
+		rs_t1=pstmt_t1.executeUpdate();
+		con.commit();
+		con.setAutoCommit(true);
 		return 1;
 		} catch (Exception e) {
 			
